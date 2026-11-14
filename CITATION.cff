@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software or its methodology, please cite this repository."
+title: "CSP-S / NOIP Boundary Calibration"
+type: software
+version: "3.0-local"
+date-released: 2026-11-15
+license: MIT
+authors:
+  - family-names: "lg-FlowerRed"
+    alias: "lg-FlowerRed"
+    website: "https://github.com/lg-FlowerRed"
+contributors:
+  - name: "Claude Code"
+  - name: "GPT"
+abstract: "Local boundary calibration between CSP-S and NOIP using matched award records, provincial truncation thresholds, school-group validation, and explicit uncertainty reporting."
+repository-code: "https://github.com/lg-FlowerRed/csp-noip-level-calibration"
+keywords:
+  - CSP-S
+  - NOIP
+  - calibration
+  - truncated distributions
+  - programming contests

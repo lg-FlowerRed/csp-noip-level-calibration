@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# Machine-local / generated verification artifacts
+/verification/*
+!/verification/README.md
+exported_report.json
+*_report_*.json
+/reports/generated/
+
+# Local exports outside reports/ (regenerable)
+/NOIP局部标定_*.txt
+
+# Private source data: personal information / upstream dataset
+/data/raw.txt
+/data/school.txt
+/data/grades.json
+/data/surnames.json
+/data/name_exceptions.json
+/data/scoring.json
+
+# Claude session-local files
+/.claude/
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+~$*
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+secrets.*

@@ -1,0 +1,15 @@
+﻿年份,赛事,组别,一等奖人数,一等奖比例,二等奖人数,二等奖比例,三等奖人数,三等奖比例,反推总人数,反推方法,数据性质,来源,备注
+2019,CSP-S,提高组,2859,20.56%,,,,,13903,data/contests.json capacity（与2859÷20.56%一致）,数据文件,data/contests.json,NOIP 2019停办；CSP-J/S首次举办
+2020,CSP-S,提高组,2393,21.66%,,,,,11048,data/contests.json capacity（与2393÷21.66%一致）,数据文件,data/contests.json,转载NOI官网2020-12-01规则
+2021,CSP-S,提高组,2354,20.29%,,,,,11601,data/contests.json capacity（与2354÷20.29%一致）,数据文件,data/contests.json,
+2022,CSP-S,提高组,1964,21.31%,,,,,9216,data/contests.json capacity（与1964÷21.31%一致）,数据文件,data/contests.json,
+2023,CSP-S,提高组,3898,20.30%,,,,,19202,data/contests.json capacity（与3898÷20.30%一致）,数据文件,data/contests.json,
+2024,CSP-S,提高组,5507,20.01%,,,,,27521,data/contests.json capacity（与5507÷20.01%一致）,数据文件,data/contests.json,
+2025,CSP-S,提高组,6194,20.31%,,,,,30497,data/contests.json capacity（与6194÷20.31%一致）,数据文件,data/contests.json,
+2026,CSP-S,提高组,6607,20.24%,,,,,32643,data/contests.json capacity（与6607÷20.24%一致）,数据文件,data/contests.json,截至2026-11-14；NOIP 2026尚未举行
+2020,NOIP,不分组,1130,24.08%,1174,25.02%,676,14.40%,4693,data/contests.json capacity（与1130÷24.08%一致）,数据文件,data/contests.json,NOIP恢复首年；获奖总数2980
+2021,NOIP,不分组,1441,27.39%,,,,,5261,data/contests.json capacity（与1441÷27.39%一致）,数据文件,data/contests.json,一等奖名额=新获奖1062+历年379
+2022,NOIP,不分组,1233,28.20%,1107,25.32%,185,4.23%,4372,data/contests.json capacity（与1233÷28.20%一致）,数据文件,data/contests.json,获奖总数2525；此前按20%估算的6165已废弃
+2023,NOIP,不分组,1785,26.76%,2180,32.68%,727,10.90%,6670,data/contests.json capacity（与1785÷26.76%一致）,数据文件,data/contests.json,获奖总数4692
+2024,NOIP,不分组,1517,20.20%,1712,22.80%,1883,25.07%,7510,data/contests.json capacity（与1517÷20.20%一致）,数据文件,data/contests.json,1517/20.20%、1712/22.80%、1883/25.07%
+2025,NOIP,不分组,1545,20.47%,1761,23.33%,1768,23.42%,7548,data/contests.json capacity（与1545÷20.47%一致）,数据文件,data/contests.json,1545/20.47%、1761/23.33%、1768/23.42%
