@@ -140,20 +140,28 @@ class CountingAndRuleTests(unittest.TestCase):
         self.assertEqual(parsed["北京"].counting_floor, 150)
         self.assertIsNone(parsed["北京"].observation_floor)
 
-    def test_zero_award_province_is_included_in_counting_floor(self):
+    def test_zero_award_province_does_not_constrain_counting_floor(self):
         rows = [record('a', 's', 120, province='甲'), record('b', 's', 150, province='甲')]
         official = {'provinces': {'甲': {'一等': [100, 2]}, '乙': {'一等': [200, 0]}}}
         parsed = app.load_rule_info(rows, official)
         self.assertIn('乙', parsed)
-        self.assertEqual(app.counting_floor(parsed), 200)
+        self.assertFalse(parsed['乙'].constraining)
+        self.assertEqual(app.counting_floor(parsed), 100)
         tail = app.ScoreTail(rows, 4, parsed, 400)
-        self.assertFalse(tail.evaluate(150).complete)
-        self.assertEqual(tail.evaluate(150).count_upper, .75)
+        self.assertTrue(tail.evaluate(150).complete)
+        self.assertAlmostEqual(tail.evaluate(150).q, .25)
 
-    def test_unknown_zero_award_province_blocks_certification(self):
+    def test_unknown_zero_award_province_does_not_block(self):
         parsed = app.load_rule_info([record('a', 's', 150)], {'provinces': {
             '北京': {'一等': [100, 1]}, '乙': {'一等': [None, None]}}})
+        self.assertEqual(app.counting_floor(parsed), 100)
+        self.assertFalse(parsed['乙'].constraining)
+
+    def test_positive_awards_without_line_still_block(self):
+        parsed = app.load_rule_info([record('a', 's', 150)], {'provinces': {
+            '北京': {'一等': [100, 1]}, '乙': {'一等': [None, 5]}}})
         self.assertIsNone(app.counting_floor(parsed))
+        self.assertTrue(parsed['乙'].constraining)
 
     def test_uncountable_competitor_is_not_dropped_from_stability(self):
         rows = [dict(family='normal', half_width_pp=2, cv_log_loss=4., converged=True,
@@ -317,15 +325,15 @@ class RealDataTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             app.analyze_year(app.DATA_DIR, 2025, {6:.2, 7:.1}, seed=-1)
 
-    def test_missing_rule_year_keeps_baseline_without_inventing_threshold(self):
-        report = app.analyze_year(app.DATA_DIR, 2023, {6:.15, 7:.075}, bootstrap_reps=0)
-        for level in report.levels.values():
-            self.assertTrue(level.available)
-            self.assertIsNotNone(level.baseline)
-            self.assertIsNone(level.corrected)
-            self.assertEqual(level.selected_method, "visible_baseline")
-        json.loads(app.report_to_json(report))
-        self.assertNotIn("quality_grade", app.report_to_json(report))
+    def test_all_supported_years_have_auditable_baselines(self):
+        for year in range(2020, 2026):
+            report = app.analyze_year(app.DATA_DIR, year, {6:.15, 7:.075}, bootstrap_reps=0)
+            for level in report.levels.values():
+                self.assertTrue(level.available)
+                self.assertIsNotNone(level.baseline)
+                self.assertIn(level.selected_method, {"visible_baseline", "corrected"})
+            json.loads(app.report_to_json(report))
+            self.assertNotIn("quality_grade", app.report_to_json(report))
 
 
 if __name__ == "__main__":

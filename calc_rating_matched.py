@@ -51,6 +51,7 @@ class RuleInfo:
     status: str
     reason: str
     observed_minimum: Optional[float]
+    constraining: bool = True
 
 
 @dataclass
@@ -194,17 +195,24 @@ def load_rule_info(records, official):
         needed = {r.award for r in rows}
         known = bool(values) and not invalid and not inconsistent
         lower_complete = known and needed.issubset(values)
+        # A province with no award records and no positive published count has
+        # nobody who could be missed; it must not block the national floor.
+        positive_published = any(cell and len(cell) > 1 and cell[1] and cell[1] > 0
+                                 for cell in table.values())
+        zero_award = not rows and not positive_published
         # Also include explicitly published lower lines with zero recipients.
         floor = min(values.values()) if known else None
-        reason = ("原始分数低于对应官方奖项线，需核对" if inconsistent else
+        reason = ("该省无获奖记录，不构成全国门槛约束" if zero_award else
+                  "原始分数低于对应官方奖项线，需核对" if inconsistent else
                   "规则含非法门槛值" if invalid else
                   "未收录该省官方分数线" if not known else
                   f"缺少{lowest_observed_award}等最低获奖规则，仅高分计数可核对" if not lower_complete else
                   "本地官方门槛与已收录各奖项分数一致")
         result[province] = RuleInfo(province, floor, floor if lower_complete else None,
                                     official.get("source_url", ""),
-                                    "完整门槛" if lower_complete else "部分门槛" if known else "未核实",
-                                    reason, min((r.score for r in rows), default=None))
+                                    "无获奖" if zero_award else "完整门槛" if lower_complete else "部分门槛" if known else "未核实",
+                                    reason, min((r.score for r in rows), default=None),
+                                    constraining=not zero_award)
     return result
 
 
@@ -245,13 +253,15 @@ def prepare_year(data_dir, year):
 
 
 def counting_floor(rules):
-    if not rules or any(r.counting_floor is None for r in rules.values()):
+    constraining = [r for r in (rules or {}).values() if r.constraining]
+    if not constraining or any(r.counting_floor is None for r in constraining):
         return None
-    return max(r.counting_floor for r in rules.values())
+    return max(r.counting_floor for r in constraining)
 
 
 def observation_complete(rules):
-    return bool(rules) and all(r.observation_floor is not None for r in rules.values())
+    constraining = [r for r in (rules or {}).values() if r.constraining]
+    return bool(constraining) and all(r.observation_floor is not None for r in constraining)
 
 
 class ScoreTail:

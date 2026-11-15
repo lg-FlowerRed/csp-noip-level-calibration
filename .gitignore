@@ -31,6 +31,11 @@ exported_report.json
 /data/name_exceptions.json
 /data/scoring.json
 
+# Local writing references / drafts (not part of the public repository)
+/example.md
+/example2.md
+/CSP-S与NOIP比例标定_文章.md
+
 # Claude session-local files
 /.claude/
 
