@@ -96,6 +96,8 @@ py calc_rating_matched.py --year 2025 --q-s-6 15 --q-s-7 7.5 --bootstrap 1000 --
 
 详细推导与边界说明见：
 
+- [面向公众的分析文章：2024年建议与多年趋势](docs/article-2024-recommendation.md)
+- [完整技术方法（含公式、验证与采用条件）](docs/technical-method.md)
 - [方法 v3：局部标定改进方案](docs/method-v3-local-calibration.md)
 - [方法 v1：以 CSP-S 为共同参照（历史文档）](docs/method-v1-difficulty-ratio.md)
 - [v3 核验结果](docs/v3-verification.md)
